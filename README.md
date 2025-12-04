@@ -197,9 +197,7 @@ LLM‑generated Markdown report includes:
 
 - Drift monitoring  
 - Retraining automation  
-- Multi-user model experiments  
 
----
 
-# ✔️ End of README
+
 
