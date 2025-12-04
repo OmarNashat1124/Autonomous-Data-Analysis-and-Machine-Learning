@@ -7,8 +7,36 @@
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:controllers\\datasetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\helper\\uploadhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:helper\\uploadhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\dto\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:dto\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\dto\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:dto\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\models\\datasetrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:models\\datasetrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\dto\\predictionrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,36 +47,12 @@
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:dto\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\dto\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:dto\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\models\\datasetrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:models\\datasetrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\models\\megacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:models\\megacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -61,10 +65,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\mega.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:mega.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\helper\\uploadhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|solutionrelative:helper\\uploadhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{75181159-7072-408C-B288-D9C0E5A5232F}|Mega.csproj|d:\\yahya ramdan\\. net\\final project tasks\\mega project\\autonomous-data-analysis-and-machine-learning\\helper\\cloudinarysettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -86,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,51 +94,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RegisterDTO.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\RegisterDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\RegisterDTO.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\RegisterDTO.cs",
-              "RelativeToolTip": "DTO\\RegisterDTO.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAkwBsAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T21:11:01.841Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PredictionRequestDTO.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\PredictionRequestDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\PredictionRequestDTO.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\PredictionRequestDTO.cs",
-              "RelativeToolTip": "DTO\\PredictionRequestDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-01T13:13:06.723Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DatasetController.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\DatasetController.cs",
-              "RelativeDocumentMoniker": "Controllers\\DatasetController.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\DatasetController.cs",
-              "RelativeToolTip": "Controllers\\DatasetController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T17:22:54.174Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
               "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\AccountController.cs",
               "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAgwDwAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAADsAAAAAAAAAAAAAACcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-23T17:05:32.638Z"
             },
@@ -156,7 +118,108 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Services\\Implementations\\AuthService.cs",
+              "RelativeDocumentMoniker": "Services\\Implementations\\AuthService.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Services\\Implementations\\AuthService.cs",
+              "RelativeToolTip": "Services\\Implementations\\AuthService.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwCAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T18:05:31.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RegisterDTO.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\RegisterDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\RegisterDTO.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\RegisterDTO.cs",
+              "RelativeToolTip": "DTO\\RegisterDTO.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA0wCEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T21:11:01.841Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DatasetController.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\DatasetController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DatasetController.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Controllers\\DatasetController.cs",
+              "RelativeToolTip": "Controllers\\DatasetController.cs",
+              "ViewState": "AgIAAAwBAAAAAAAAAAAuwBABAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T17:22:54.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK4AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T17:25:54.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UploadHelper.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Helper\\UploadHelper.cs",
+              "RelativeDocumentMoniker": "Helper\\UploadHelper.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Helper\\UploadHelper.cs",
+              "RelativeToolTip": "Helper\\UploadHelper.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T17:19:47.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PredictionRequestDTO.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\PredictionRequestDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\PredictionRequestDTO.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\PredictionRequestDTO.cs",
+              "RelativeToolTip": "DTO\\PredictionRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T13:13:06.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DatasetRecord.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\DatasetRecord.cs",
+              "RelativeDocumentMoniker": "Models\\DatasetRecord.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\DatasetRecord.cs",
+              "RelativeToolTip": "Models\\DatasetRecord.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAowB4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T17:06:36.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "Models\\ApplicationUser.cs",
+              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\ApplicationUser.cs",
+              "RelativeToolTip": "Models\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-23T17:05:48.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "LoginDTO.cs",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\DTO\\LoginDTO.cs",
               "RelativeDocumentMoniker": "DTO\\LoginDTO.cs",
@@ -168,31 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "Models\\ApplicationUser.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\ApplicationUser.cs",
-              "RelativeToolTip": "Models\\ApplicationUser.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T17:05:48.529Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DatasetRecord.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\DatasetRecord.cs",
-              "RelativeDocumentMoniker": "Models\\DatasetRecord.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\DatasetRecord.cs",
-              "RelativeToolTip": "Models\\DatasetRecord.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T17:06:36.068Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "MegaContext.cs",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Models\\MegaContext.cs",
               "RelativeDocumentMoniker": "Models\\MegaContext.cs",
@@ -204,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "IAuthService.cs",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Services\\Interfaces\\IAuthService.cs",
               "RelativeDocumentMoniker": "Services\\Interfaces\\IAuthService.cs",
@@ -216,31 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Services\\Implementations\\AuthService.cs",
-              "RelativeDocumentMoniker": "Services\\Implementations\\AuthService.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Services\\Implementations\\AuthService.cs",
-              "RelativeToolTip": "Services\\Implementations\\AuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T18:05:31.242Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAAAK4AAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T17:25:54.996Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Mega.csproj",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Mega.csproj",
               "RelativeDocumentMoniker": "Mega.csproj",
@@ -252,7 +267,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
@@ -264,7 +279,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -273,18 +288,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAADFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-11-23T17:10:54.279Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "UploadHelper.cs",
-              "DocumentMoniker": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Helper\\UploadHelper.cs",
-              "RelativeDocumentMoniker": "Helper\\UploadHelper.cs",
-              "ToolTip": "D:\\yahya ramdan\\. net\\Final project Tasks\\Mega Project\\Autonomous-Data-Analysis-and-Machine-Learning\\Helper\\UploadHelper.cs",
-              "RelativeToolTip": "Helper\\UploadHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T17:19:47.795Z"
             },
             {
               "$type": "Document",

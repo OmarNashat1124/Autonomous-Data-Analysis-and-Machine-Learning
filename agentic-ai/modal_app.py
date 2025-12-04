@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from modal import Volume, Image ,Secret
 from groq import Groq
+import joblib  
 
 import logging
 import os
@@ -236,6 +237,9 @@ def feature_engineering_agent(
         df=df,
         target_column=target_column,
         fe_config=fe_config,
+        user_id=user_id,
+        version=version,
+        mode="train",  
     )
 
     eng_folder = get_user_engineered(user_id)
@@ -1484,6 +1488,7 @@ def auto_ai_agent(
             "imbalance_smote_k_neighbors": 5,
             "imbalance_random_state": 42,
             "imbalance_minority_threshold": 0.2,
+            "max_interactions": 50,
             }
 
     def _default_model_list(task_: str) -> list:
@@ -1627,6 +1632,7 @@ def auto_ai_agent(
                     "use_polynomial": true | false,
                     "poly_degree": 2 or 3,
                     "use_interactions": true | false,
+                    "max_interactions": null | integer (e.g. 20 or 50),
                     "use_binning": true | false,
                     "bins": integer (e.g. 5 or 10),
                     "bin_strategy": "quantile" | "uniform",
@@ -1645,7 +1651,10 @@ def auto_ai_agent(
                     "imbalance_sampling_strategy": "auto" | float in (0, 1] | <class→ratio mapping>,
                     "imbalance_smote_k_neighbors": integer (e.g. 3–10),
                     "imbalance_random_state": integer,
-                    "imbalance_minority_threshold": float in [0.05, 0.3]
+                    "imbalance_minority_threshold": float in [0.05, 0.3],
+                    - If "use_interactions" is false, you may omit "max_interactions" or set it to null.
+                    - If "use_interactions" is true, use a reasonable "max_interactions" (e.g. 20–100) to avoid feature explosion on wide datasets.
+
                 },
                 },
                 - For REGRESSION or when is_imbalanced is false or null:
@@ -2163,6 +2172,13 @@ def auto_ai_agent(
     try:
         client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
+        best_model_name = train_result.get("best_model_name")
+        best_model_detail = None
+        for m in train_result.get("results", []):
+            if m.get("model_name") == best_model_name:
+                best_model_detail = m
+                break
+            
         report_context = {
             "cleaned_summary": cleaned_summary,  
             "version": version,
@@ -2173,6 +2189,7 @@ def auto_ai_agent(
             "fe_config": fe_config,
             "model_list": model_list,
             "training": train_result,
+            "best_model": best_model_detail,
         }
 
         system_msg = """
@@ -2221,67 +2238,57 @@ def auto_ai_agent(
         }
         }
 
-        You MUST output a concise MARKDOWN report with the following sections ONLY:
+        You MUST output a concise Markdown report with the following sections ONLY:
 
-        ## 1. Data summary
+        1. Data summary
         - 3–6 sentences.
         - ALWAYS use the numeric values from cleaned_summary:
-        * Say: "The cleaned dataset contains **<rows> rows × <cols> columns**."
+        Say: "The cleaned dataset contains <rows> rows × <cols> columns."
             where <rows> = cleaned_summary.rows and <cols> = cleaned_summary.cols.
             NEVER output the literal text "<rows>" or "<cols>" or "rows x cols".
         - Mention:
-        * the target column name and whether the task is **classification** or **regression**
-            using cleaned_summary.target_column and cleaned_summary.task;
-        * whether there are significant missing values:
-            - if cleaned_summary.missing_overview is empty or all near zero, say there are
-            no significant missing-value issues;
+        the target column name and whether the task is classification or regression using cleaned_summary.target_column and cleaned_summary.task;
+        whether there are significant missing values:
+            - if cleaned_summary.missing_overview is empty or all near zero, say there are no significant missing-value issues;
             - otherwise briefly name 1–3 columns with notable missingness;
-        * for classification, use cleaned_summary.target_distribution and
-            cleaned_summary.is_imbalanced to say whether the target is **balanced**,
-            **roughly balanced**, or **imbalanced**.
-        - If cleaned_summary.target_distribution is null, simply say that detailed class
-        distribution is not available instead of guessing.
+        for classification, use cleaned_summary.target_distribution and cleaned_summary.is_imbalanced to say whether the target is balanced, roughly balanced, or imbalanced.
+        - If cleaned_summary.target_distribution is null, simply say that detailed class distribution is not available instead of guessing.
 
-        ## 2. Data preparation
+        2. Data preparation
         - 3–6 sentences.
         - Explain what was done at the cleaning stage using preprocess_config:
-        * handling duplicates / ID index,
-        * missing-data thresholds for columns and rows,
-        * basic date/datetime handling (if enabled),
-        * outlier handling strategy (e.g. IQR with a given multiplier).
-        - Keep this high-level and readable for a non-technical user: focus on
-        consistency, removing obviously bad values, and making the data ready for modelling.
-        - Do NOT invent numeric thresholds that are not in preprocess_config. You may
-        describe them qualitatively (e.g. “a standard IQR-based rule”).
+        handling duplicates / ID index,
+        missing-data thresholds for columns and rows,
+        basic date/datetime handling (if enabled),
+        outlier handling strategy (e.g. IQR with a given multiplier).
+        - Keep this high-level and readable for a non-technical user: focus on consistency, removing obviously bad values, and making the data ready for modelling.
+        - Do NOT invent numeric thresholds that are not in preprocess_config. You may describe them qualitatively (e.g. “a standard IQR-based rule”).
 
-        ## 3. Feature engineering & imbalance handling
+        3. Feature engineering & imbalance handling
         - 3–6 sentences.
         - Describe WHICH feature-engineering steps were requested in fe_config:
-        * encoding strategy for categoricals (one-hot, label, ordinal, target, etc.),
-        * scaling of numeric features (if enabled),
-        * polynomial features or interactions (if enabled),
-        * binning (if enabled),
-        * PCA (if enabled).
+        encoding strategy for categoricals (one-hot, label, ordinal, target, etc.),
+        scaling of numeric features (if enabled),
+        polynomial features or interactions (if enabled),
+        binning (if enabled),
+        PCA (if enabled).
         - For each major step, briefly explain WHY it is appropriate given:
-        * the presence/absence of categorical columns,
-        * whether the task is regression vs classification,
-        * and whether the target is imbalanced.
+        the presence/absence of categorical columns,
+        whether the task is regression vs classification,
+        and whether the target is imbalanced.
         - Describe the imbalance strategy from fe_config:
-        * If imbalance_strategy is not "none" (smote, smotenc, adasyn, smoteenn,
-            smotetomek, random_over, random_under), explain in plain language that
-            resampling was applied to reduce class imbalance and why that helps.
-        * If imbalance_strategy is "none" but cleaned_summary.is_imbalanced is true,
+        If imbalance_strategy is not "none" (smote, smotenc, adasyn, smoteenn, smotetomek, random_over, random_under), explain in plain language that resampling was applied to reduce class imbalance and why that helps.
+        If imbalance_strategy is "none" but cleaned_summary.is_imbalanced is true,
             explain that the models rely on built-in handling such as class weights
             instead of resampling.
         - Do NOT talk about individual hyperparameters; keep the focus on data-level logic.
 
-        ## 4. Models evaluated
-        - Start with 1–2 sentences saying that several models were trained and evaluated
-        on the same train/test split.
+        4. Models evaluated
+        - Start with 1–2 sentences saying that several models were trained and evaluated on the same train/test split.
         - Then write a bullet list, ONE bullet per model in training.results.
         For each model:
         - use its model_name;
-        - mention its test **accuracy** for classification or **RMSE** for regression,
+        - mention its test accuracy for classification or RMSE for regression,
             taking the value DIRECTLY from test_metrics;
         - describe whether the generalization_gap indicates the model is
             stable (small gap), mildly overfitting (moderate gap), or strongly
@@ -2290,48 +2297,43 @@ def auto_ai_agent(
             “slightly lower accuracy but very stable”).
         - Do NOT use tables in this section.
 
-        ## 5. Data-focused improvements
+        5. Data-focused improvements
         - 4–6 bullet points.
         - These bullets MUST focus ONLY on data-related improvements, NOT model tuning.
         Acceptable themes:
-        * collecting more rows or more recent data,
-        * improving data quality (fewer missing or noisy values),
-        * adding or refining domain-specific features,
-        * improving how categorical values or rare categories are recorded,
-        * better handling of extreme outliers at the data-collection stage,
-        * rebalancing the target through better sampling or business processes.
-        - Do NOT suggest changing algorithms, hyperparameters, ensembles, or training
-        procedures here.
+        collecting more rows or more recent data,
+        improving data quality (fewer missing or noisy values),
+        adding or refining domain-specific features,
+        improving how categorical values or rare categories are recorded,
+        better handling of extreme outliers at the data-collection stage,
+        rebalancing the target through better sampling or business processes.
+        - Do NOT suggest changing algorithms, hyperparameters, ensembles, or training procedures here.
 
-        ## 6. Model metrics summary
+        6. Model metrics summary
         - Add a final section with a compact metrics table.
-        - For CLASSIFICATION tasks, create this markdown table:
+        - For CLASSIFICATION tasks, output the following columns in order WITHOUT any table borders or dashes:
 
-        | Model | Accuracy | Precision | Recall | F1 | Generalization gap |
-        |-------|----------|-----------|--------|----|--------------------|
+        Model | Accuracy | Precision | Recall | F1 | Generalization gap
 
-        - For REGRESSION tasks, create this markdown table:
+        - For REGRESSION tasks, output the following columns in order WITHOUT any table borders or dashes:
 
-        | Model | RMSE | MAE | R² | Generalization gap |
-        |-------|------|-----|----|--------------------|
+        Model | RMSE | MAE | R² | Generalization gap
 
         - Fill each cell using the existing values from training.results:
         use each model’s test_metrics (accuracy, precision, recall, f1 for classification;
         rmse, mae, r2 for regression) and its generalization_gap.
-        - If any metric is missing for a model, put `N/A` in that cell.
-        - After the table you may add ONE short sentence naming which model is considered
-        the best (using training.best_model_name) and why (e.g. “highest test accuracy
-        with a small generalization gap”).
-        - Do NOT output any “final answer”, LaTeX, or `\\boxed{}` expressions.
+        - If any metric is missing for a model, put N/A in that cell.
+        - After the table you MUST add ONE short sentence naming which model is considered the best, and this MUST always be training.best_model_name (do not choose a different model), and explain why (e.g. “highest test accuracy with a small generalization gap”).
+        - Do NOT output any final answer text.
 
         GLOBAL RULES:
         - Use only information actually present in the JSON context.
         - Never speculate about columns, metrics, or transformations that are not mentioned.
         - Keep the tone professional but friendly and understandable by a non-expert.
-        - Avoid internal implementation details (no mentions of “config dictionaries”,
-        “JSON payloads”, or “pipelines”). Write as if you personally designed this
-        workflow for the user.
+        - Avoid internal implementation details (no mentions of config dictionaries,
+        JSON payloads, or pipelines). Write as if you personally designed this workflow for the user.
         - Output MUST be Markdown only (no raw JSON, no code).
+
         """
 
 
@@ -2464,7 +2466,69 @@ def load_deployed_model(user_id: str, version: int, model_name: str):
     
     except Exception as e:
         return {"status": "error", "message": str(e)}
-    
+
+def _prepare_raw_row(
+    input_features: dict,
+    preprocessing_metadata: dict,
+    target_column: str,
+) -> pd.DataFrame:
+    """
+    Take the raw JSON row coming from the UI and cast each column to
+    the same dtype that was used during training (numeric / categorical / date).
+
+    This ensures run_feature_engineering produces columns compatible
+    with the engineered training dataset.
+    """
+    import pandas as pd
+
+    df_raw = pd.DataFrame([input_features])
+
+    numeric_continuous = preprocessing_metadata.get("numeric_continuous", []) or []
+    numeric_categorical = preprocessing_metadata.get("numeric_categorical", []) or []
+    categorical_columns = preprocessing_metadata.get("categorical_columns", []) or []
+    date_columns = preprocessing_metadata.get("date_columns", []) or []
+
+    numeric_cols = set(numeric_continuous + numeric_categorical)
+    cat_cols = set(categorical_columns)
+    date_cols = set(date_columns)
+
+    # Only keep columns that existed during training (plus target if it is passed)
+    keep_cols = (numeric_cols | cat_cols | date_cols | {target_column}) & set(df_raw.columns)
+    if keep_cols:
+        df_raw = df_raw[list(keep_cols)].copy()
+    else:
+        # Fall back to whatever came if metadata is weird
+        df_raw = df_raw.copy()
+
+    # --- Numeric columns ---
+    for col in numeric_cols:
+        if col in df_raw.columns:
+            df_raw[col] = pd.to_numeric(df_raw[col], errors="coerce")
+
+    # --- Date columns ---
+    for col in date_cols:
+        if col in df_raw.columns:
+            df_raw[col] = pd.to_datetime(df_raw[col], errors="coerce")
+
+    # --- Categorical columns ---
+    for col in cat_cols:
+        if col in df_raw.columns:
+            df_raw[col] = df_raw[col].astype(str).fillna("unknown")
+
+    # Fill NaNs in numeric columns after conversion
+    numeric_present = [c for c in numeric_cols if c in df_raw.columns]
+    if numeric_present:
+        df_raw[numeric_present] = df_raw[numeric_present].fillna(0)
+
+    # Any leftover columns (not in metadata) → treat as strings
+    for col in df_raw.columns:
+        if col in numeric_cols or col in cat_cols or col in date_cols or col == target_column:
+            continue
+        df_raw[col] = df_raw[col].astype(str).fillna("unknown")
+
+    return df_raw
+
+ 
 @app.function(
     image=ai_image, 
     volumes={"/root/data": volume},
@@ -2577,16 +2641,13 @@ def make_prediction(
         train_df = pd.read_parquet(engineered_path)
         train_feature_cols = [c for c in train_df.columns if c != target_column]
 
-        # Prepare raw input
-        df_raw = pd.DataFrame([input_features])
+        # Prepare raw input using training metadata (correct dtypes)
+        df_raw = _prepare_raw_row(
+            input_features=input_features,
+            preprocessing_metadata=preprocessing_metadata,
+            target_column=target_column,
+        )
 
-        # Handle missing values
-        for col in df_raw.columns:
-            if df_raw[col].dtype.kind in "biufc":
-                df_raw[col] = pd.to_numeric(df_raw[col], errors="coerce")
-                df_raw[col].fillna(0, inplace=True)
-            else:
-                df_raw[col] = df_raw[col].astype(str).fillna("unknown")
 
         # Add dummy target
         df_fe_input = df_raw.copy()
@@ -2605,30 +2666,67 @@ def make_prediction(
             df=df_fe_input,
             target_column=target_column,
             fe_config=fe_config_infer,
+            user_id=user_id,
+            version=version,
+            mode="inference",   # load + apply saved scaler
         )
 
         if target_column in engineered_new.columns:
             engineered_new = engineered_new.drop(columns=[target_column])
 
-        # Sanitize column names
-        def _sanitize_column_name(name: str) -> str:
-            name = name.replace(" ", "_")
-            name = re.sub(r"[^0-9A-Za-z_]+", "_", name)
-            name = re.sub(r"_+", "_", name).strip("_")
-            return name[:80]
-        
-        engineered_new.columns = [_sanitize_column_name(col) for col in engineered_new.columns]
+        # ---- NEW: align with training features without renaming ----
+        # Make sure all training features exist in engineered_new
+        for col in train_feature_cols:
+            if col not in engineered_new.columns:
+                engineered_new[col] = 0
 
-        # Align with training features
-        X = engineered_new.reindex(columns=train_feature_cols, fill_value=0)
+        # Keep only training features and enforce the same order
+        X = engineered_new[train_feature_cols]
 
         # Final NaN check
-        if X.isnull().any().any():
-            X = X.fillna(0)
+        X = X.fillna(0)
 
-        # Predict
-        prediction = model.predict(X)[0]
 
+
+        raw_pred = model.predict(X)
+
+        if isinstance(raw_pred, (np.ndarray, list)):
+            arr = np.array(raw_pred).ravel()
+            if arr.size == 0:
+                return {
+                    "status": "error",
+                    "message": "Model returned empty prediction array."
+                }
+            prediction = arr[0]
+        else:
+            prediction = raw_pred
+
+
+        decoded_prediction = prediction
+        try:
+            from pipeline.utils_paths import get_user_models
+
+            models_folder = get_user_models(user_id)
+            label_map_path = os.path.join(
+                models_folder,
+                f"label_encoder_v{version}_{target_column}.json"
+            )
+
+            if os.path.exists(label_map_path):
+                with open(label_map_path, "r") as f:
+                    label_info = json.load(f)
+
+                classes = label_info.get("classes", [])
+                # Only decode if prediction is index-like
+                if isinstance(prediction, (np.integer, int, float, np.floating)):
+                    idx = int(round(float(prediction)))
+                    if 0 <= idx < len(classes):
+                        decoded_prediction = classes[idx]
+        except Exception:
+            # If anything goes wrong, just fall back to numeric prediction
+            decoded_prediction = prediction
+
+        # Confidence (still based on model probabilities)
         confidence = None
         if hasattr(model, "predict_proba"):
             try:
@@ -2636,16 +2734,24 @@ def make_prediction(
                 confidence = float(np.max(proba))
             except Exception:
                 confidence = None
-        
+
         processing_time = (time.time() - start_time) * 1000.0
-        
+
+        # If we decoded to a string label, return that; otherwise return number
+        if isinstance(decoded_prediction, (np.integer, int, float, np.floating)):
+            api_pred = float(decoded_prediction)
+        else:
+            api_pred = str(decoded_prediction)
+
         return {
             "status": "success",
-            "prediction": float(prediction) if isinstance(prediction, (int, float, np.number)) else str(prediction),
+            "prediction": api_pred,
             "model_used": model_name,
             "confidence": confidence,
             "processing_time_ms": processing_time,
         }
+
+
     
     except Exception as e:
         import traceback
@@ -2711,86 +2817,107 @@ def api_predict(request: PredictionRequest):
 @web_app.get("/schema/{user_id}/{version}")
 def api_schema(user_id: str, version: int):
     """
-    Return cleaned columns + logical input type for a given user/version.
-
-    Rules:
-    - Exclude any column whose name contains 'id' (case-insensitive).
-    - raw_labels are ONLY included for:
-        * true categorical columns (object-like, in categorical_columns),
-        * non-numeric target columns.
-    - No raw_labels for numeric columns (even if low-cardinality).
+    Returns schema information INCLUDING:
+    - semantic types (numeric_continuous, numeric_categorical, categorical, datetime, target)
+    - raw_labels for ALL categorical-like columns
+    - numeric continuous limits:
+        min_allowed = actual_min * 0.5
+        max_allowed = actual_max * 1.5
     """
-    from pipeline.utils_paths import get_user_preprocessed
 
-    pre_folder = get_user_preprocessed(user_id)
-    cleaned_path = os.path.join(pre_folder, f"cleaned_v{version}.parquet")
-    metadata_path = os.path.join(pre_folder, f"metadata_v{version}.json")
+    # -----------------------------
+    # Load metadata
+    # -----------------------------
+    metadata_path = f"/root/data/users/{user_id}/preprocessed/metadata_v{version}.json"
+    if not os.path.exists(metadata_path):
+        return {"error": f"metadata for version {version} not found"}
 
-    if not os.path.exists(cleaned_path) or not os.path.exists(metadata_path):
-        raise HTTPException(
-            status_code=404,
-            detail="Cleaned data or metadata not found for this version.",
-        )
-
-    df = pd.read_parquet(cleaned_path)
     with open(metadata_path, "r") as f:
-        meta = json.load(f)
+        metadata = json.load(f)
 
-    num_cont = set(meta.get("numeric_continuous", []))
-    num_cat = set(meta.get("numeric_categorical", []))
-    cat_cols = set(meta.get("categorical_columns", []))
-    date_cols = set(meta.get("date_columns", []))
-    target_col = meta.get("target_column")
+    df_path = f"/root/data/users/{user_id}/preprocessed/cleaned_v{version}.parquet"
+    if not os.path.exists(df_path):
+        return {"error": f"cleaned data for version {version} not found"}
+
+    df = pd.read_parquet(df_path)
+
+    target_col = metadata.get("target_column")
+    num_cont = metadata.get("numeric_continuous", [])
+    num_cat = metadata.get("numeric_categorical", [])
+    cat_cols = metadata.get("categorical_columns", [])
+    date_cols = metadata.get("date_columns", [])
 
     schema = []
-    MAX_LABELS = 200  # safety cap for huge categoricals (optional)
+    MAX_LABELS = 50
 
-    for col, dt in df.dtypes.items():
-        col_lower = col.lower()
-
-        # 1) Skip any column containing 'id'
-        if "id" in col_lower:
-            continue
-
+    # -----------------------------
+    # Build schema per column
+    # -----------------------------
+    for col in df.columns:
+        dt = df[col].dtype
         dt_str = str(dt)
 
-        # 2) Determine logical input_type
+        # --- semantic type selection ---
         if col == target_col:
-            input_type = "target"
-        elif col in num_cont or col in num_cat:
-            input_type = "numeric"
-        elif col in date_cols:
-            input_type = "datetime"
+            semantic_type = "target"
+        elif col in num_cont:
+            semantic_type = "numeric_continuous"
+        elif col in num_cat:
+            semantic_type = "numeric_categorical"
         elif col in cat_cols:
-            input_type = "categorical"
+            semantic_type = "categorical"
+        elif col in date_cols:
+            semantic_type = "datetime"
         else:
-            # Fallback if column not in metadata lists
-            if np.issubdtype(dt, np.number):
-                input_type = "numeric"
-            elif np.issubdtype(dt, np.datetime64):
-                input_type = "datetime"
-            else:
-                input_type = "string"
+            # fallback but usually won't happen
+            semantic_type = dt_str
 
-        # 3) raw_labels ONLY for true categoricals (non-numeric)
+        # input_type == semantic_type per your instructions
+        input_type = semantic_type
+
+        # -------- RAW LABELS -------------
         raw_labels = None
-        is_true_categorical = col in cat_cols
-        is_categorical_target = (
-            col == target_col and not np.issubdtype(dt, np.number)
+        is_any_categorical = (
+            semantic_type == "categorical"
+            or semantic_type == "numeric_categorical"
+            or (
+                semantic_type == "target"
+                and not np.issubdtype(dt, np.number)
+            )
         )
 
-        if is_true_categorical or is_categorical_target:
+        if is_any_categorical:
             values = df[col].dropna().unique().tolist()
             if len(values) > MAX_LABELS:
                 values = values[:MAX_LABELS]
             raw_labels = values
 
+        min_allowed = None
+        max_allowed = None
+        import math
+
+        if semantic_type == "numeric_continuous":
+            col_series = df[col].dropna()
+
+            if len(col_series) > 0:
+                actual_min = float(col_series.min())
+                actual_max = float(col_series.max())
+
+                min_allowed = actual_min
+                max_allowed = actual_max
+
+
+
+
+        # -------- Append entry -------------
         schema.append(
             {
                 "name": col,
                 "pandas_dtype": dt_str,
-                "input_type": input_type,
-                "raw_labels": raw_labels,  # always null for numeric / datetime / string
+                "input_type": input_type,     # now semantic_type
+                "raw_labels": raw_labels,     # categorical, numeric_categorical, categorical targets
+                "min_allowed": min_allowed,   # numeric_continuous only
+                "max_allowed": max_allowed,
             }
         )
 
@@ -2891,25 +3018,43 @@ def api_models_summary(user_id: str, version: int):
             }
         )
 
-    # Pick best model using same idea as in /start:
+    # Pick best model using SAME gap-penalised score as model_training_agent
+    def _score_model(m: dict, task: str) -> float | None:
+        train_m = m.get("train_metrics") or {}
+        test_m = m.get("test_metrics") or {}
+
+        if task == "regression":
+            if "rmse" not in train_m or "rmse" not in test_m:
+                return None
+            train_rmse = train_m["rmse"]
+            test_rmse = test_m["rmse"]
+            gap = test_rmse - train_rmse          # >0 = worse on test
+            gap_penalty = max(0.0, gap)
+            # lower score = better
+            return test_rmse + 0.3 * gap_penalty
+
+        else:  # classification
+            if "accuracy" not in train_m or "accuracy" not in test_m:
+                return None
+            train_acc = train_m["accuracy"]
+            test_acc = test_m["accuracy"]
+            gap = train_acc - test_acc            # >0 = overfitting
+            gap_penalty = max(0.0, gap)
+            # higher accuracy → lower (more negative) score
+            return -test_acc + 0.3 * gap_penalty
+
     best_model = None
     best_score = None
 
     for m in all_models:
-        test_m = m["test_metrics"]
-
-        if task_type == "regression" and "rmse" in test_m:
-            score = test_m["rmse"]  # lower is better
-            better = best_score is None or score < best_score
-        elif task_type == "classification" and "accuracy" in test_m:
-            score = test_m["accuracy"]  # higher is better
-            better = best_score is None or score > best_score
-        else:
+        score = _score_model(m, task_type)
+        if score is None:
             continue
-
-        if better:
+        if best_score is None or score < best_score:
             best_score = score
             best_model = m
+
+
 
     # Load markdown report if it exists
     reports_folder = get_user_reports(user_id)
@@ -2966,9 +3111,11 @@ def api_dashboard(user_id: str, version: int):
 @app.function(
     image=ai_image,
     volumes={"/root/data": volume},
-    timeout=600,
+    timeout=60 * 60,
     container_idle_timeout=300,
     secrets=[groq_secret],
+    cpu=4,
+    memory=8_000, 
 )
 @modal.asgi_app()
 def fastapi_app():

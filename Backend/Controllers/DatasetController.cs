@@ -270,5 +270,25 @@ namespace Mega.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+        // ===================== GET USER DATASETS =====================
+        [HttpGet("GetUserDatasets")]
+        public async Task<IActionResult> GetUserDatasets()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { error = "User not authenticated" });
+
+            var datasets = await _context.DatasetRecords
+                .Where(d => d.UserId == userId)
+                .Select(d => new
+                {
+                    datasetId = d.Id,
+                    name = d.FileName
+                })
+                .ToListAsync();
+
+            return Ok(datasets);
+        }
+
     }
 }

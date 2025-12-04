@@ -158,10 +158,12 @@ D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\rjsmrazor.dswa.cache.json
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\rjsmcshtml.dswa.cache.json
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\scopedcss\bundle\Mega.styles.css
+D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\compressed\uvduofiyev-{0}-mno3dxz2xq-mno3dxz2xq.gz
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\staticwebassets.build.json
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\staticwebassets.build.json.cache
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\staticwebassets.development.json
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\staticwebassets.build.endpoints.json
+D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\swae.build.ex.cache
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\staticwebassets.upToDateCheck.txt
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\Mega.csproj.Up2Date
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\Mega.dll
@@ -169,5 +171,3 @@ D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\Mega.pdb
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\Mega.genruntimeconfig.cache
 D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\ref\Mega.dll
-D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\compressed\uvduofiyev-{0}-mno3dxz2xq-mno3dxz2xq.gz
-D:\yahya ramdan\. net\Final project Tasks\Mega Project\Autonomous-Data-Analysis-and-Machine-Learning\obj\Release\net9.0\swae.build.ex.cache

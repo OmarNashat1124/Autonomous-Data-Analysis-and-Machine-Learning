@@ -212,6 +212,7 @@ def handle_outliers_iqr(df, categorical_columns, target_column=None, multiplier=
     return df
 
 
+
 def clean_data(df, target_column=None, config=None):
     logger.info("Starting preprocessing pipeline with config...")
 
@@ -258,7 +259,7 @@ def clean_data(df, target_column=None, config=None):
             target_column=target_column,
             multiplier=iqr_multiplier,
         )
-
+    
     return df, numeric_continuous, numeric_categorical, categorical
 
 

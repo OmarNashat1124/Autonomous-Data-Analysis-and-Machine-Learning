@@ -6,7 +6,7 @@ namespace Mega.Helper
     {
         private readonly Cloudinary _cloudinary;
         private readonly List<string> _allowedExtensions = new() { ".csv", ".json", ".xlsx" };
-        private const long MaxFileSize = 20 * 1024 * 1024; // 20MB
+        private const long MaxFileSize = 10 * 1024 * 1024; // 20MB
 
         public UploadHelper(Cloudinary cloudinary)
         {
@@ -19,7 +19,7 @@ namespace Mega.Helper
                 return (false, null, "NO_FILE", "No file uploaded.");
 
             if (file.Length > MaxFileSize)
-                return (false, null, "FILE_TOO_LARGE", $"File size exceeds 20MB limit.");
+                return (false, null, "FILE_TOO_LARGE", $"File size exceeds 10MB limit.");
 
             var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!_allowedExtensions.Contains(fileExtension))

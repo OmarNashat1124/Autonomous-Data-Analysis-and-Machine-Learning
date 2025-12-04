@@ -19,7 +19,6 @@ namespace Mega.Services.Implementations
             _userManager = userManager;
             _config = config;
         }
-
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO userFromRequest)
         {
             var user = new ApplicationUser
@@ -32,16 +31,14 @@ namespace Mega.Services.Implementations
 
             return await _userManager.CreateAsync(user, userFromRequest.Password);
         }
-
-        public async Task<AuthResponseDTO> LoginUserAsync(LoginDTO userFromRequest)
+        public async Task<AuthResponseDTO?> LoginUserAsync(LoginDTO userFromRequest)
         {
             var user = await _userManager.FindByNameAsync(userFromRequest.UserName)
                        ?? await _userManager.FindByEmailAsync(userFromRequest.UserName);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, userFromRequest.Password))
-                return new AuthResponseDTO { Token = string.Empty };
+                return null;
 
-            // ADD NULL CHECK for configuration
             var secretKey = _config["JWT:SecretKey"];
             if (string.IsNullOrEmpty(secretKey))
             {
@@ -58,10 +55,8 @@ namespace Mega.Services.Implementations
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
             var expirationHours = _config.GetValue<int>("JWT:ExpirationInHours", 24);
             var expirationTime = DateTime.UtcNow.AddHours(expirationHours);
-
             var jwtToken = new JwtSecurityToken(
                 issuer: _config["JWT:Issuer"] ?? "MegaAPI",
                 audience: _config["JWT:Audience"] ?? "MegaUsers",
@@ -69,9 +64,7 @@ namespace Mega.Services.Implementations
                 expires: expirationTime,
                 signingCredentials: creds
             );
-
             var tokenString = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
             return new AuthResponseDTO
             {
                 Token = tokenString,

@@ -19,7 +19,8 @@ from imblearn.over_sampling import (
 )
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.combine import SMOTEENN, SMOTETomek
-
+from itertools import combinations
+import joblib
 logger = logging.getLogger(__name__)
 
 def _sanitize_column_name(name: str) -> str:
@@ -62,6 +63,38 @@ def expand_datetime_features(df: pd.DataFrame, target_column: str | None = None)
 
     return df
 
+SCALER_FILENAME_TEMPLATE = "scaler_v{version}.pkl"  
+
+
+def _get_scaler_path(user_id: str, version: int) -> str:
+    folder = get_user_engineered(user_id)
+    os.makedirs(folder, exist_ok=True)
+    return os.path.join(folder, SCALER_FILENAME_TEMPLATE.format(version=version))
+
+
+def save_scaler(scaler: StandardScaler, user_id: str, version: int) -> None:
+    """Persist the StandardScaler for later inference."""
+    path = _get_scaler_path(user_id, version)
+    try:
+        joblib.dump(scaler, path)
+        logger.info(f"Saved StandardScaler to {path}")
+    except Exception as e:
+        logger.warning(f"Failed to save scaler to {path}: {e!r}")
+
+
+def load_scaler(user_id: str, version: int) -> StandardScaler | None:
+    """Load the StandardScaler fitted during training."""
+    path = _get_scaler_path(user_id, version)
+    if not os.path.exists(path):
+        logger.warning(f"No scaler file found at {path}. Skipping numeric scaling.")
+        return None
+    try:
+        scaler = joblib.load(path)
+        logger.info(f"Loaded StandardScaler from {path}")
+        return scaler
+    except Exception as e:
+        logger.error(f"Failed to load scaler from {path}: {e!r}")
+        return None
 
 
 def one_hot_encode(df, categorical_columns):
@@ -142,20 +175,35 @@ def polynomial_features(df, numeric_columns, degree=2):
     logger.info(f"Applied Polynomial Features (degree={degree}) to {len(numeric_columns)} numeric columns.")
     return df
 
-def numeric_interactions(df, numeric_columns):
+def numeric_interactions(df, numeric_columns, max_interactions: int | None = None):
+    """
+    Create pairwise interaction features between numeric columns, with an optional cap.
+
+    max_interactions:
+        - None  → generate all pairwise interactions
+        - int N → generate at most N interaction features (deterministic order)
+    """
     df = df.copy()
     count = 0
-    for i in range(len(numeric_columns)):
-        for j in range(i+1, len(numeric_columns)):
-            a, b = numeric_columns[i], numeric_columns[j]
-            df[f"{a}_x_{b}"] = df[a] * df[b]
-            count += 1
-    
+
+    # All unique pairs (a,b), a != b
+    pairs = list(combinations(numeric_columns, 2))
+
+    # Apply limit if provided
+    if max_interactions is not None and max_interactions > 0:
+        pairs = pairs[:max_interactions]
+
+    for a, b in pairs:
+        new_col = f"{a}_x_{b}"
+        df[new_col] = df[a] * df[b]
+        count += 1
+
     # ✨ Sanitize new column names
     df.columns = [_sanitize_column_name(col) for col in df.columns]
-    
-    logger.info(f"Generated {count} numeric interaction features.")
+
+    logger.info(f"Generated {count} numeric interaction features (max_interactions={max_interactions}).")
     return df
+
 
 def bin_numeric(df, numeric_columns, bins=5, strategy="quantile"):
     df = df.copy()
@@ -361,13 +409,29 @@ def handle_target_imbalance(
     return df_resampled
 
 
-def scale_numeric_features(df: pd.DataFrame, target_column: str | None = None) -> pd.DataFrame:
+def scale_numeric_features(
+    df: pd.DataFrame,
+    target_column: str | None = None,
+    user_id: str | None = None,
+    version: int | None = None,
+    mode: str = "train",   # "train" or "inference"
+) -> pd.DataFrame:
     """
-    Scale all numeric feature columns (excluding the target) using StandardScaler.
-    This is called at the END of feature engineering so visualizations
-    stay on unscaled cleaned data, but models see scaled features.
+    Scale numeric feature columns (excluding target) using StandardScaler.
+
+    During TRAIN:
+        - fit StandardScaler on numeric columns
+        - save scaler to disk for this user/version
+
+    During INFERENCE:
+        - load previously saved scaler
+        - apply transform on the same columns used in training
     """
-    numeric_cols = df.select_dtypes(include=["int64", "float64", "int32", "float32"]).columns.tolist()
+    df = df.copy()
+
+    numeric_cols = df.select_dtypes(
+        include=["int64", "float64", "int32", "float32"]
+    ).columns.tolist()
 
     if target_column in numeric_cols:
         numeric_cols.remove(target_column)
@@ -376,15 +440,68 @@ def scale_numeric_features(df: pd.DataFrame, target_column: str | None = None) -
         logger.info("No numeric feature columns to scale in feature engineering.")
         return df
 
-    scaler = StandardScaler()
-    df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
-    logger.info(f"Scaled numeric feature columns: {numeric_cols}")
+    # ------------------ TRAIN MODE ------------------
+    if mode == "train":
+        scaler = StandardScaler()
+
+        # Fit on DataFrame so feature_names_in_ is set
+        df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+
+        if user_id is not None and version is not None:
+            save_scaler(scaler, user_id, version)
+        else:
+            logger.warning(
+                "scale_numeric_features(train): user_id or version is None -> "
+                "scaler will NOT be persisted."
+            )
+
+        return df
+
+    # ---------------- INFERENCE MODE ----------------
+    scaler = None
+    if user_id is not None and version is not None:
+        scaler = load_scaler(user_id, version)
+
+    if scaler is None:
+        # We cannot safely scale -> leave numeric features as-is
+        logger.warning(
+            "scale_numeric_features(inference): no scaler loaded. "
+            "Returning unscaled numeric features."
+        )
+        return df
+
+    # Use the exact same feature order used during training
+    feature_names = getattr(scaler, "feature_names_in_", None)
+    if feature_names is None:
+        # Fallback: transform the numeric cols intersection
+        feature_names = np.array(numeric_cols)
+
+    # Make sure all training numeric columns exist; missing ones -> 0
+    X_numeric = df.reindex(columns=feature_names, fill_value=0.0)
+
+    try:
+        scaled_values = scaler.transform(X_numeric)
+        df.loc[:, feature_names] = scaled_values
+        logger.info(
+            f"Applied saved StandardScaler on {len(feature_names)} numeric features "
+            f"in inference mode."
+        )
+    except Exception as e:
+        logger.error(
+            f"Failed to apply saved scaler in inference mode: {e!r}. "
+            "Leaving numeric features unscaled."
+        )
+
     return df
+
 
 def run_feature_engineering(
     df: pd.DataFrame,
     target_column: str,
     fe_config: dict | None = None,
+    user_id: str | None = None,
+    version: int | None = None,
+    mode: str = "train",   # "train" or "inference"
 ) -> pd.DataFrame:
 
 
@@ -403,7 +520,8 @@ def run_feature_engineering(
         "imbalance_sampling_strategy": "auto",
         "imbalance_smote_k_neighbors": 5,
         "imbalance_random_state": 42,
-        "imbalance_minority_threshold": 0.2,  
+        "imbalance_minority_threshold": 0.2, 
+        "max_interactions": 50, 
     }
 
     if fe_config is None:
@@ -442,7 +560,7 @@ def run_feature_engineering(
         df = polynomial_features(df, numeric_continuous, degree=cfg["poly_degree"])
 
     if cfg["use_interactions"] and numeric_continuous:
-        df = numeric_interactions(df, numeric_continuous)
+        df = numeric_interactions(df, numeric_continuous, max_interactions=cfg.get("max_interactions"))
 
     if cfg["use_binning"] and numeric_continuous:
         df = bin_numeric(
@@ -466,7 +584,14 @@ def run_feature_engineering(
             df = pd.concat([df[remaining_cols], pca_df], axis=1)
             
     if cfg.get("scale_numeric", False):
-        df = scale_numeric_features(df, target_column=target_column)
+        df = scale_numeric_features(
+            df,
+            target_column=target_column,
+            user_id=user_id,
+            version=version,
+            mode=mode,
+        )
+
     
     # ✨ FINAL: Sanitize ALL column names at the end
     df.columns = [_sanitize_column_name(col) for col in df.columns]

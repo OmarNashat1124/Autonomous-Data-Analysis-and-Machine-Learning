@@ -40,7 +40,6 @@ namespace Mega.Controllers
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO userFromRequest)
         {
             if (!ModelState.IsValid)
