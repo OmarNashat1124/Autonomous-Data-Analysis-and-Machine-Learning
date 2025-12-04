@@ -1,4 +1,4 @@
-# Agentic AI System
+# Dantix Auto ML Platform 
 
 A complete, production-ready **Agentic AI platform** combining:
 
